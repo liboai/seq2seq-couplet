@@ -127,6 +127,7 @@ class Model():
     def train(self, epochs, start=0):
         if not self.init_train:
             raise Exception('Train graph is not inited!')
+
         with self.train_graph.as_default():
             if path.isfile(self.model_file + '.meta') and self.restore_model:
                 print("Reloading model file before training.")
@@ -134,6 +135,7 @@ class Model():
             else:
                 self.train_session.run(self.train_init)
             total_loss = 0
+
             for step in range(start, epochs):
                 data = next(self.train_data)
                 in_seq = data['in_seq']
@@ -149,6 +151,7 @@ class Model():
                             self.train_target_seq_len: target_seq_len})
                 total_loss += loss
                 self.log_writter.add_summary(summary, step)
+
                 if step % self.save_step == 0:
                     self.train_saver.save(self.train_session, self.model_file)
                     print("Saving model. Step: %d, loss: %f" % (step,
@@ -166,6 +169,7 @@ class Model():
                     print('src: ' + input_text)
                     print('output: ' + output_text)
                     print('target: ' + target_text)
+
                 if step % self.eval_step == 0:
                     bleu_score = self.eval(step)
                     print("Evaluate model. Step: %d, score: %f, loss: %f" % (
