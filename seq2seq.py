@@ -8,7 +8,7 @@ from tensorflow.python.layers import core as layers_core
 
 def getLayeredCell(layer_size, num_units, input_keep_prob,
         output_keep_prob=1.0):
-    return rnn.MultiRNNCell([rnn.DropoutWrapper(rnn.BasicLSTMCell(num_units),
+    return rnn.MultiRNNCell([rnn.DropoutWrapper(rnn.LSTMCell(num_units),
         input_keep_prob, output_keep_prob) for i in range(layer_size)])
 
 
